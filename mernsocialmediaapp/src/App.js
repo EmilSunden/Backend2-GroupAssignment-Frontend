@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 import {auth} from "./Action/userAction";
 import {useDispatch, useSelector} from "react-redux";
 import {Home, FullPost} from "./pages";
+import Profile from "./pages/profile/Profile";
 
 
 
@@ -36,6 +37,7 @@ function App() {
                 {isAuth && <Routes>
                     <Route path="/" element={<Home/>}/>
                     <Route path="/posts/:id" element={<FullPost/>}/>
+                    <Route path="/profile/:username" element={<Profile />}></Route>
                 </Routes>
                 }
             </Container>
