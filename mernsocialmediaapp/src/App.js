@@ -5,6 +5,9 @@ import Registration from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import {auth} from "./Action/userAction";
 import {useDispatch, useSelector} from "react-redux";
+import Profile from "./pages/profile/Profile";
+import Home from "./pages/Home/Home";
+import Followers from "./pages/follow/Followers";
 
 
 
@@ -24,7 +27,15 @@ function App() {
             <div className='App'>
                 <Navbar/>
                 <div className="wrap">
-                    {!isAuth && <Routes>
+                    {isAuth && 
+                        <Routes>
+                            <Route exact path="/" element={<Home />}></Route>
+                            <Route path="/profile/:username" element={<Profile />}></Route>
+                            <Route path="/profile/:username/followers" element={<Followers />}></Route>
+                        </Routes>
+                    }
+                    {!isAuth && 
+                    <Routes>
                         <Route path="/registration" element={<Registration/>}/>
                         <Route path="/login" element={<Login/>}/>
                     </Routes>
