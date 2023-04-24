@@ -1,13 +1,12 @@
 import {Header} from "./components/Header";
 import {Route, Routes} from "react-router-dom";
 import React, {useEffect} from "react";
-import Registration from "./components/Register/Register";
-import Login from "./components/Login/Login";
+
 import Container from "@mui/material/Container";
 
 import {auth} from "./Action/userAction";
 import {useDispatch, useSelector} from "react-redux";
-import {Home, FullPost, Profile} from "./pages";
+import {Home, FullPost, Profile, Login, Registration} from "./pages";
 
 
 
@@ -29,7 +28,7 @@ function App() {
             <Header/>
             <Container maxWidth="lg">
                 {!isAuth && <Routes>
-                    <Route path="/registration" element={<Registration/>}/>
+                    <Route path="/register" element={<Registration/>}/>
                     <Route path="/login" element={<Login/>}/>
                 </Routes>
                 }
