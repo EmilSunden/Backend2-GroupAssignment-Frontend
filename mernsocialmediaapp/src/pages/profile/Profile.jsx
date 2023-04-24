@@ -33,7 +33,7 @@ export const Profile = () => {
         <div>
             {profile && profile.map((person, index) => (
                 <div key={index}>
-                    <h2>Nickname: {person.username}</h2>
+                    <h2>@{person.username}</h2>
                 </div>
             ))}
             {posts && <ProfileFeed posts={posts}/>}
