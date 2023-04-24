@@ -11,8 +11,6 @@ export const FollowingPostsFeed = () => {
 
     const fetchFollowingPosts = async () => {
         const response = await axios.get(`/following/${username}`)
-        
-        // console.log(response.data.following)
         setPosts(response.data.following)
     }
 
