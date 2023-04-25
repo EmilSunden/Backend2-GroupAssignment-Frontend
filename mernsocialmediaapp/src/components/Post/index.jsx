@@ -15,6 +15,7 @@ import {deletePosts} from "../../reducer/slices/posts";
 export const Post = ({
   _id,
   title,
+  text,
   createdAt,
   imageUrl,
   user,
@@ -62,7 +63,10 @@ export const Post = ({
         <UserInfo {...user} additionalText={createdAt} />
         <div className={styles.indention}>
           <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
-            {isFullPost ? title : <a href={`/posts/${_id}`}>{title}</a>}
+            {isFullPost ? title : <div>
+                <a href={`/posts/${_id}`}>{title}</a>
+                  <p>{text}</p>
+              </div>}
           </h2>
           <ul className={styles.tags}>
             {tags.map((name) => (
