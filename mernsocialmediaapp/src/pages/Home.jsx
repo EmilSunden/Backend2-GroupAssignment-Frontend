@@ -11,6 +11,8 @@ import {fetchPosts} from "../reducer/slices/posts";
 export const Home = () => {
     const dispatch = useDispatch()
     const {posts} = useSelector((state) => state.posts)
+    const currentUser = useSelector(state => state.user.currentUser.user)
+
     const isPostLoading = posts.status === 'loading'
 
     React.useEffect(() => {
@@ -42,6 +44,7 @@ export const Home = () => {
                                 viewsCount={obj.views}
                                 commentsCount={3}
                                 tags={['react', 'fun', 'typescript']}
+                                isEditable={currentUser ?.id  === obj.user._id}
                             />
                         ))}
                 </Grid>
