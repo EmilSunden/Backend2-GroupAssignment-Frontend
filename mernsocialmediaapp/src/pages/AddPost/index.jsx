@@ -31,12 +31,11 @@ export const AddPost = () => {
                 title,
                 text
             }
-            const {data} = isEditing
-            ? await axios.patch(`posts/${id}/edit`, fields)
-                : await axios.post('/posts/create', fields)
+            const {data} = isEditing ? await axios.patch(`posts/${id}/edit`, fields)
+                : await axios.post('/posts/create', fields) 
 
-
-            const _id = isEditing ? id : data.id
+            
+            const _id = isEditing ? id : data._id
             navigate(`/posts/${_id}`)
         } catch (e) {
             alert('Error with creating post')
@@ -56,7 +55,6 @@ export const AddPost = () => {
             axios.get(`posts/${id}`).then(({data}) => {
                 setTitle(data.title)
                 setText(data.text)
-
             })
         }
 
