@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 
 import {auth} from "./Action/userAction";
 import {useDispatch, useSelector} from "react-redux";
-import {Home, FullPost, Profile, Login, Registration, FollowingPostsFeed} from "./pages";
+import {Home, FullPost, Profile, Login, Registration, FollowingPostsFeed, AddPost} from "./pages";
 
 
 
@@ -19,7 +19,6 @@ function App() {
             dispatch(auth())
         }
     }, [])
-
 
     const isAuth = useSelector(state => state.user.isAuth)
 
@@ -35,6 +34,8 @@ function App() {
                 {isAuth && <Routes>
                     <Route path="/" element={<Home/>}/>
                     <Route path="/posts/:id" element={<FullPost/>}/>
+                    <Route path="/posts/create" element={<AddPost/>}/>
+                    <Route path="/posts/:id/edit" element={<AddPost/>}/>
                     <Route path="/profile/:username" element={<Profile />}/>
                     <Route path="/profile/following/:username" element={<FollowingPostsFeed />}/>
                 </Routes>
