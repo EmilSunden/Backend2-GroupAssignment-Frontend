@@ -1,19 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import axios from "../../axios";
 import SimpleMDE from 'react-simplemde-editor';
-
 import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 export const AddPost = () => {
+    const {id} = useParams()
+    const isEditing = Boolean(id)
     const navigate = useNavigate()
     const imageUrl = '';
     const [text, setText] = React.useState('');
-    const [isConfirmed, setConfirmed] = React.useState(false);
     const [title, setTitle] = React.useState('');
 
 
@@ -31,12 +31,16 @@ export const AddPost = () => {
                 title,
                 text
             }
-            const {data} = await axios.post('/posts/create', fields)
-            const id = data._id
-            console.log(id)
-            navigate(`/posts/${id}`)
+            const {data} = isEditing
+            ? await axios.patch(`posts/${id}/edit`, fields)
+                : await axios.post('/posts/create', fields)
+
+
+            const _id = isEditing ? id : data.id
+            navigate(`/posts/${_id}`)
         } catch (e) {
-            console.log(e)
+            alert('Error with creating post')
+            alert(e)
         }
 
     }
@@ -46,6 +50,17 @@ export const AddPost = () => {
     const onChange = React.useCallback((value) => {
         setText(value);
     }, []);
+
+    useEffect(() => {
+        if(id) {
+            axios.get(`posts/${id}`).then(({data}) => {
+                setTitle(data.title)
+                setText(data.text)
+
+            })
+        }
+
+    },[])
 
     const options = React.useMemo(
         () => ({
@@ -86,7 +101,7 @@ export const AddPost = () => {
             <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options}/>
             <div className={styles.buttons}>
                 <Button onClick={onSubmit} size="large" variant="contained">
-                    Publish
+                    {isEditing ? 'Save Changes':'Publish'}
                 </Button>
                 <a href="/">
                     <Button size="large">Cancel</Button>
