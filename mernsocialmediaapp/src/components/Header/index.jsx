@@ -4,6 +4,7 @@ import styles from './Header.module.scss';
 import Container from '@mui/material/Container';
 import {logout} from "../../reducer/userReducer";
 import {useDispatch, useSelector} from "react-redux";
+import SearchUser from '../SearchUser/SearchUser';
 
 export const Header = () => {
   const isAuth = useSelector(state => state.user.isAuth)
@@ -17,9 +18,11 @@ export const Header = () => {
           <a className={styles.logo} href="/">
             <div>Twisster</div>
           </a>
+         
           <div className={styles.buttons}>
             {isAuth ? (
               <>
+                 <SearchUser />
                 <a href="/">
                   <Button variant="contained">Show Latest Posts</Button>
                 </a>
