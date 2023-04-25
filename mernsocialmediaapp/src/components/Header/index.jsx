@@ -21,7 +21,7 @@ export const Header = () => {
             {isAuth ? (
               <>
                 <a href="/">
-                  <Button variant="contained">Show Post</Button>
+                  <Button variant="contained">Show Latest Posts</Button>
                 </a>
                 <a href="/posts/create">
                   <Button variant="contained">Create Post</Button>
