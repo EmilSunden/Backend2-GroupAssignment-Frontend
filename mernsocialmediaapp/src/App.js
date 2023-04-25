@@ -37,7 +37,7 @@ function App() {
                     <Route path="/posts/create" element={<AddPost/>}/>
                     <Route path="/posts/:id/edit" element={<AddPost/>}/>
                     <Route path="/profile/:username" element={<Profile />}/>
-                    <Route path="/profile/following/:username" element={<FollowingPostsFeed />}/>
+                    <Route path="/profile/following/:id" element={<FollowingPostsFeed />}/>
                 </Routes>
                 }
             </Container>
