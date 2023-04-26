@@ -8,8 +8,11 @@ import SearchUser from '../SearchUser/SearchUser';
 
 export const Header = () => {
   const isAuth = useSelector(state => state.user.isAuth)
+  const username = useSelector((state) => state.user.currentUser.user) 
   const dispatch = useDispatch()
 
+  const profilePath = `/profile/:${username}` 
+  const myFeedPath = `/profile/following/:${username}` 
 
   return (
     <div className={styles.root}>
@@ -25,6 +28,12 @@ export const Header = () => {
                  <SearchUser />
                 <a href="/">
                   <Button variant="contained">Show Latest Posts</Button>
+                </a>
+                <a href={profilePath}>
+                  <Button variant="contained">Profile</Button>
+                </a>
+                <a href={myFeedPath}>
+                  <Button variant="contained">My Feed</Button>
                 </a>
                 <a href="/posts/create">
                   <Button variant="contained">Create Post</Button>
