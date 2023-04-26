@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useParams} from 'react-router-dom'
+import Button from '@mui/material/Button';
 import axios from '../../axios';
 import ProfileFeed from '../../components/ProfileFeed/ProfileFeed';
 
@@ -24,6 +25,18 @@ export const Profile = () => {
         setPosts(response.data)
     }
 
+    const followUser = async () => {
+        try {
+            const response = await axios.post(`/follow/${profile[0]._id}`)
+            if (response.status == 200) {
+                alert(`You are now following ${profile[0].username}`)
+            }
+        } catch (error) {
+            alert('you already follow this user')
+        }
+    }
+
+
     useEffect(() => {
         fetchProfile();
         fetchPosts();
@@ -34,6 +47,7 @@ export const Profile = () => {
             {profile && profile.map((person, index) => (
                 <div key={index}>
                     <h2>@{person.username}</h2>
+                    <Button onClick={followUser} variant="contained">Follow</Button>
                 </div>
             ))}
             {posts && <ProfileFeed posts={posts}/>}
