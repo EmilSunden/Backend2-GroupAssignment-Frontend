@@ -5,14 +5,22 @@ import Container from '@mui/material/Container';
 import {logout} from "../../reducer/userReducer";
 import {useDispatch, useSelector} from "react-redux";
 import SearchUser from '../SearchUser/SearchUser';
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const isAuth = useSelector(state => state.user.isAuth)
-  const username = useSelector((state) => state.user.currentUser.user) 
+  const username = useSelector(state => state.user.currentUser.user) 
   const dispatch = useDispatch()
+  let navigate = useNavigate()
 
-  const profilePath = `/profile/:${username}` 
-  const myFeedPath = `/profile/following/:${username}` 
+  console.log(username)
+
+  function goToProfile () {
+    navigate(`/profile/:${username.username}`)
+  }
+  function goToFollowing () {
+    navigate(`/profile/following/:${username.id}`)
+  }
 
   return (
     <div className={styles.root}>
@@ -21,23 +29,19 @@ export const Header = () => {
           <a className={styles.logo} href="/">
             <div>Twisster</div>
           </a>
-         
           <div className={styles.buttons}>
             {isAuth ? (
               <>
-                 <SearchUser />
+              <SearchUser />
                 <a href="/">
-                  <Button variant="contained">Show Latest Posts</Button>
+                  <Button variant="contained">All Posts</Button>
                 </a>
-                <a href={profilePath}>
-                  <Button variant="contained">Profile</Button>
-                </a>
-                <a href={myFeedPath}>
-                  <Button variant="contained">My Feed</Button>
-                </a>
+                  <Button onClick={goToFollowing} variant="contained">My Feed</Button>
                 <a href="/posts/create">
                   <Button variant="contained">Create Post</Button>
                 </a>
+                  <Button onClick={goToProfile} variant="contained">Profile</Button>
+
                 <Button onClick={() => dispatch(logout())} variant="contained" color="error">
                   Exit
                 </Button>
