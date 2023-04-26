@@ -17,7 +17,7 @@ export const Login = () => {
 
     function handleLoginClick() {
         dispatch(login(username, password))
-        navigate(`/profile/following/:${username}`) 
+        navigate(`/`) 
     }
 
   return (
