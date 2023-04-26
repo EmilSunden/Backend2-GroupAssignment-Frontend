@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Post} from '../components/Post/index';
 
 import {fetchPosts} from "../reducer/slices/posts";
+import { Link } from 'react-router-dom';
 
 export const Home = () => {
     const dispatch = useDispatch()
@@ -23,7 +24,9 @@ export const Home = () => {
         <>
             <Tabs style={{marginBottom: 15}} value={0} aria-label="basic tabs example">
                 <Tab label="New Posts"/>
-                <Tab label="Following Posts"/>
+                <Link to={`/profile/following/${currentUser.id}`}>
+                    <Tab label="Following Posts"/>
+                </Link>
             </Tabs>
             <Grid container spacing={4}>
                 <Grid xs={8} item>

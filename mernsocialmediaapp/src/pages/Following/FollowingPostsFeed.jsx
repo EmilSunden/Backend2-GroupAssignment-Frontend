@@ -7,15 +7,14 @@ import FollowingPosts from '../../components/FollowingPosts/FollowingPosts';
 export const FollowingPostsFeed = () => {
     const [posts, setPosts] = useState([])
 
-    const {username} = useParams();
+    const {id} = useParams();
 
     const fetchFollowingPosts = async () => {
-        const response = await axios.get(`/following/${username}`)
+        const response = await axios.get(`/following/${id}`)
         setPosts(response.data.following)
     }
 
     useEffect(() => {
-        
         fetchFollowingPosts();
     }, [])
 
