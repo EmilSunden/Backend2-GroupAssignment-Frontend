@@ -13,13 +13,11 @@ export const Header = () => {
   const dispatch = useDispatch()
   let navigate = useNavigate()
 
-  console.log(username)
-
   function goToProfile () {
-    navigate(`/profile/:${username.username}`)
+    navigate(`/profile/${username.username}`)
   }
   function goToFollowing () {
-    navigate(`/profile/following/:${username.id}`)
+    navigate(`/profile/following/${username.id}`)
   }
 
   return (
