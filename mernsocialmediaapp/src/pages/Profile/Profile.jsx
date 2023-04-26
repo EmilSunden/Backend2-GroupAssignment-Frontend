@@ -4,7 +4,7 @@ import axios from '../../axios';
 import ProfileFeed from '../../components/ProfileFeed/ProfileFeed';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { unfollowUser, followUser } from '../../reducer/slices/posts';
+import { unfollowUser, followUser } from '../../reducer/slices/follow';
 
 
 export const Profile = () => {
@@ -12,8 +12,7 @@ export const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [following, setFollowing] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
-  const currentUser = useSelector(state => state.user.currentUser.user);
-  console.log("Logged in user:", currentUser)
+  // const currentUser = useSelector(state => state.user.currentUser.user);
   const { username } = useParams();
 
   const dispatch = useDispatch();
@@ -23,10 +22,8 @@ export const Profile = () => {
     const userData = response.data.user;
     if (Array.isArray(userData) && userData.length > 0) {
       setProfile(userData);
-      console.log("Profile:", profile)
     } else if (userData) {
-      setProfile([userData]);
-      console.log("Profile:", profile)
+      setProfile([userData]); 
     }
   };
 
@@ -42,14 +39,19 @@ export const Profile = () => {
   }, [following]);
 
   useEffect(() => {
-    setFollowing(currentUser.following);
-    console.log(following)
-  }, [currentUser]);
+    const followData = JSON.parse(localStorage.getItem('followData'));
+    if (followData) {
+      console.log('Loaded followData from localStorage', followData)
+
+      setFollowing(followData.following);
+      setIsFollowing(followData.isFollowing);
+    }
+  }, []);
 
 
   const handleUnfollow = async () => {
     try {
-        await dispatch(unfollowUser(profile[0]._id));
+        dispatch(unfollowUser(profile[0]._id));
         console.log("Unfollowed")
         setIsFollowing(false)
     } catch (err) {
@@ -59,7 +61,7 @@ export const Profile = () => {
 
   const handleFollow = async () => {
     try {
-        await dispatch(followUser(profile[0]._id));
+        dispatch(followUser(profile[0]._id));
         console.log("Followed")
         setIsFollowing(true)
     } catch (err) {
