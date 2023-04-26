@@ -9,6 +9,8 @@ import {Post} from '../components/Post/index';
 import {fetchPosts} from "../reducer/slices/posts";
 import { Link } from 'react-router-dom';
 
+import SearchUser from '../components/SearchUser/SearchUser';
+
 export const Home = () => {
     const dispatch = useDispatch()
     const {posts} = useSelector((state) => state.posts)
@@ -50,7 +52,10 @@ export const Home = () => {
                                 tags={['react', 'fun', 'typescript']}
                                 isEditable={currentUser ?.id  === obj.user._id}
                             />
-                        ))}
+                        ))}  
+                </Grid>
+                <Grid xs={4}item>
+                    <SearchUser/>
                 </Grid>
             </Grid>
         </>
