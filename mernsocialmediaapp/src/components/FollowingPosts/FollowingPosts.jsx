@@ -6,10 +6,11 @@ const FollowingPosts = ({ posts }) => {
     <div>
       Latest post of the people you follow
       {posts &&
-        posts.map((postArray) => (
-          <>
-            {postArray.map((post) => (
+        posts.map((postArray, i) => (
+          <div key={i}>
+            {postArray.map((post, i) => (
               <Post
+                key={i}
                 _id={post._id}
                 title={post.title}
                 text={post.text}
@@ -25,7 +26,7 @@ const FollowingPosts = ({ posts }) => {
                 tags={["react", "fun", "typescript"]}
               />
             ))}
-          </>
+          </div>
         ))}
     </div>
   );
