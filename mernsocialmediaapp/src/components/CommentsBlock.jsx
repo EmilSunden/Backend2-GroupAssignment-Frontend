@@ -13,65 +13,54 @@ import styles from "./AddComment/AddComment.module.scss";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Clear";
-
-
-
-/////////////
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {useSelector} from "react-redux";
-
-////////
 
 
 export const CommentsBlock = ({children}) => {
 
 
     const currentUser = useSelector(state => state.user.currentUser.user)
-    const navigate = useNavigate()
     const [text, setText] = React.useState('');
     const [isEdit, setEdit] = useState(false)
     const {id} = useParams()
-
+    const postId = useParams()
     const [comments, setComments] = useState()
     const [setComment, setEditComment] = useState()
     const [isLoading, setLoading] = useState(true)
-// currentUser ?.id  === obj.user._id
+    const navigate = useNavigate()
 
-console.log('IS EDIT',isEdit)
-console.log('SetComment',setComment)
-    const onClickRemoveImage = async ({id}) => { await axios.delete(`/posts/comments/${id}/delete`)
+
+    const commentDelete = async ({id}) => {
+        await axios.delete(`/posts/comments/${id}/delete`)
+        navigate(`/posts/${postId.id}`)
     };
 
     const onSubmit = async () => {
         try {
+
             const fields = {text}
-            const {data} = isEdit ? await axios.post(`/posts/comments/${id}/create`, fields)
-                : await axios.patch(`/posts/comments/${id}/edit`, fields)
-
-
+            const {data} = isEdit ? await axios.patch(`/posts/comments/${setComment}/edit`, fields)
+                : await axios.post(`/posts/comments/${id}/create`, fields)
             const _id = isEdit ? id : data._id
+            console.log(_id)
             navigate(`/posts/${_id}`)
         } catch (e) {
             alert('Error with creating comment')
-            alert(e)
         }
-
     }
 
 
-    const onEdit = async () => {
-        try {
-            console.log('commentIds',id)
-            const fields = {text}
-            const {data} = await axios.patch(`/posts/comments/${setComment}/edit`, fields)
-        } catch (e) {
-            alert('Error with creating comment')
-            alert(e)
-        }
-
-    }
+    // const onEdit = async () => {
+    //     try {
+    //         const fields = {text}
+    //         await axios.patch(`/posts/comments/${setComment}/edit`, fields)
+    //     } catch (e) {
+    //         alert('Error with updating comment')
+    //     }
+    //
+    // }
 
     useEffect(() => {
         axios(`/posts/comments/${id}`)
@@ -90,7 +79,7 @@ console.log('SetComment',setComment)
     return (
         <SideBlock title="Comments">
             <List>
-                {(isLoading? [...Array(5)] : comments).map((obj, index) => (
+                {(isLoading ? [...Array(5)] : comments).map((obj, index) => (
                     <React.Fragment key={index}>
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
@@ -111,15 +100,17 @@ console.log('SetComment',setComment)
                                     secondary={obj.text}
                                 />
                             )}
-                            {currentUser ?.id  === obj.user._id  && (
-
-
+                            {currentUser?.id === obj.user._id && (
                                 <div>
-                                        <IconButton color="primary">
-                                            <EditIcon onClick={() => {setText(obj.text); setEdit(true); setEditComment(obj._id)}}/>
-                                        </IconButton>
+                                    <IconButton color="primary">
+                                        <EditIcon onClick={() => {
+                                            setText(obj.text);
+                                            setEdit(true);
+                                            setEditComment(obj._id)
+                                        }}/>
+                                    </IconButton>
                                     <IconButton color="secondary">
-                                        <DeleteIcon onClick={() => onClickRemoveImage({id:obj._id})} />
+                                        <DeleteIcon onClick={() => commentDelete({id: obj._id})}/>
                                     </IconButton>
                                 </div>
                             )}
@@ -130,18 +121,13 @@ console.log('SetComment',setComment)
                 ))}
             </List>
             {children}
-
-
             <>
-
                 <div className={styles.root}>
                     <Avatar
-                        classes={{ root: styles.avatar }}
+                        classes={{root: styles.avatar}}
                         src="https://mui.com/static/images/avatar/5.jpg"
                     />
-
-
-                    <div className={styles.form} >
+                    <div className={styles.form}>
                         <TextField
                             label="Create comment"
                             variant="outlined"
@@ -151,20 +137,13 @@ console.log('SetComment',setComment)
                             multiline
                             fullWidth
                         />
-                        {isEdit ?
-                            <Button onClick={onEdit} variant="contained">
-                             Save Changes
-                            </Button>
-                            :   <Button onClick={onSubmit} variant="contained">
-                                Publish
-                            </Button>
-                        }
 
+                            <Button onClick={onSubmit} variant="contained">
+                                {isEdit ? 'Save Changes':'Publish'}
+                            </Button>
                     </div>
                 </div>
             </>
         </SideBlock>
-
-
     );
 };
