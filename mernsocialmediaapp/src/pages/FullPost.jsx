@@ -6,11 +6,11 @@ import {CommentsBlock} from "../components/CommentsBlock";
 import ReactMarkdown from 'react-markdown'
 import axios from '../axios'
 
-export const FullPost = () => {
 
+export const FullPost = () => {
+    const {id} = useParams()
     const [data, setObj] = useState()
     const [isLoading, setLoading] = useState(true)
-    const {id} = useParams()
 
     useEffect(() => {
         axios(`/posts/${id}`)
@@ -46,25 +46,7 @@ export const FullPost = () => {
             >
                 <ReactMarkdown children={data.text} />
             </Post>
-            <CommentsBlock
-                items={[
-                    {
-                        user: {
-                            fullName: "EMILTRYHARDER",
-                            avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
-                        },
-                        text: "test Comment",
-                    },
-                    {
-                        user: {
-                            fullName: "JAMES",
-                            avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
-                        },
-                        text: "TOP COMMENTS",
-                    },
-                ]}
-                isLoading={false}
-            >
+            <CommentsBlock>
                 <Index/>
             </CommentsBlock>
         </>
