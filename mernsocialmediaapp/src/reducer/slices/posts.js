@@ -12,16 +12,6 @@ export const deletePosts = createAsyncThunk('posts/deletePosts', async (id) =>{
     await axios.delete(`/posts/${id}/delete`)
 })
 
-export const followUser = createAsyncThunk('followUser', async (id) => {
-    await axios.post(`/follow/${id}`);
-    return id;
-  });
-  
-  export const unfollowUser = createAsyncThunk('unfollowUser', async (id) => {
-    await axios.post(`/unfollow/${id}`);
-    return id;
-  });
-
 
 const initialState = {
     posts: {
@@ -53,25 +43,6 @@ const postsSlice = createSlice({
     }
 })
 
-const followSlice = createSlice({
-    name: 'follow',
-    initialState: {
-        following: [],
-        isFollowing: false
-    },
-    reducers: {},
-    extraReducers: {
-        [followUser.fulfilled]: (state, action) => {
-            state.following.push(action.payload);
-            state.isFollowing = true;
-          },
-          [unfollowUser.fulfilled]: (state, action) => {
-            state.following = state.following.filter((id) => id !== action.payload);
-            state.isFollowing = false;
-          },
-    }
-})
 
 
 export const postsReducer = postsSlice.reducer
-export const followReducer = followSlice.reducer
