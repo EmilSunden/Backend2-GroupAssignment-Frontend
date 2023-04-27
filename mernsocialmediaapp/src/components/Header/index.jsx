@@ -4,7 +4,6 @@ import styles from './Header.module.scss';
 import Container from '@mui/material/Container';
 import {logout} from "../../reducer/userReducer";
 import {useDispatch, useSelector} from "react-redux";
-import SearchUser from '../SearchUser/SearchUser';
 import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
@@ -30,7 +29,6 @@ export const Header = () => {
           <div className={styles.buttons}>
             {isAuth ? (
               <>
-              <SearchUser />
                 <a href="/">
                   <Button variant="contained">All Posts</Button>
                 </a>
