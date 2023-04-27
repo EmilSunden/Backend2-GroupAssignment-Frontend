@@ -34,7 +34,7 @@ export const CommentsBlock = ({children}) => {
 
     const commentDelete = async ({id}) => {
         await axios.delete(`/posts/comments/${id}/delete`)
-        navigate(`/posts/${postId.id}`)
+        // navigate(`/posts/${postId.id}`)
     };
 
     const onSubmit = async () => {
@@ -45,7 +45,7 @@ export const CommentsBlock = ({children}) => {
                 : await axios.post(`/posts/comments/${id}/create`, fields)
             const _id = isEdit ? id : data._id
             console.log(_id)
-            navigate(`/posts/${_id}`)
+            // navigate(`/posts/${_id}`)
         } catch (e) {
             alert('Error with creating comment')
         }
